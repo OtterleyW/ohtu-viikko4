@@ -115,6 +115,17 @@ public class VerkkokauppaTest {
         verify(viite, times(2)).uusi();
     }
     
+    @Test
+    public void poistaKoristaPoistaaTuotteen(){
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.lisaaKoriin(2);
+        k.poistaKorista(1);
+        k.tilimaksu("liisa", "54321");
+        
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq(7));
+    }
+    
     
     
    
