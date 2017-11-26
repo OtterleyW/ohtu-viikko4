@@ -87,5 +87,35 @@ public class VerkkokauppaTest {
 
     }
     
+    @Test 
+    public void aloitaAsiontiNollaaEdellisenOstoksen(){
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);     
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);     
+        k.tilimaksu("pekka", "12345");
+        
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq(7));
+        
+    }
+    
+    @Test
+    public void kauppaPyytaaUudenViitenumeronJokaMaksutapahtumalle(){
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("pekka", "12345");
+                
+       verify(viite, times(1)).uusi();
+       
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);
+        k.tilimaksu("liisa", "54321");
+        verify(viite, times(2)).uusi();
+    }
+    
+    
+    
    
 }
